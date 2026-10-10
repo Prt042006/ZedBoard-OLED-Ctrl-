@@ -8,7 +8,7 @@ module spi_ctrl(
     output spi_clk,
     output reg spi_data
     );
-    reg [2:0]count;
+    reg [2:0]count=0;
     reg [2:0]datacount;
     reg [7:0]shift_reg;
     reg clk_10;
@@ -52,6 +52,8 @@ module spi_ctrl(
         else begin
             case(STATE)
             IDLE: begin
+                done_send <= 1'b0;
+                CE <= 0;
                 if (load_data) begin
                     shift_reg <= data_in;
                     STATE <= SEND;
@@ -74,7 +76,7 @@ module spi_ctrl(
                 CE<=0; 
                 if(!load_data)
                 begin
-                    done_send<=1'b0;
+                   // done_send<=1'b0;
                     STATE<=IDLE;
                 end
             end
