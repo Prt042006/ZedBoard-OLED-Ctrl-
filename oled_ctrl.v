@@ -33,15 +33,14 @@ module oled_ctrl(
     );
 
 reg [4:0] state;
-reg startDelay;
-//reg spiLoadData;
-//reg [7:0] spiData;
 reg [4:0]nextState;
-wire delayDone;  
-//wire spiDone;  
- wire spiDone;
- reg spiLoadData;
- reg [7:0] spiData; 
+
+reg startDelay;
+wire delayDone;
+  
+wire spiDone;
+reg spiLoadData;
+reg [7:0] spiData; 
 localparam  IDLE = 'd0,
             DELAY = 'd1,
             INIT = 'd2,
@@ -248,8 +247,8 @@ begin
                 if (spiDone)
                 begin
                     spiLoadData <= 0;
-                    state <= WAIT_SPI;
-                    nextState <= WAIT_SPI;
+                    //state <= WAIT_SPI;
+                    //nextState <= WAIT_SPI;
                 end
             end
         endcase     
@@ -271,21 +270,6 @@ spi_ctrl sc (
     .spi_clk(oled_spi_clk),
     .spi_data(oled_spi_data )
     );
-    
-ila_0 ila_inst (
-    .clk(clock),
-
-    .probe0(state),
-    .probe1(spiData),
-    .probe2(spiLoadData),
-    .probe3(spiDone),
-    .probe4(oled_spi_clk),
-    .probe5(oled_spi_data),
-    .probe6(oled_dc_n),
-    .probe7(oled_reset_n),
-    .probe8(oled_vdd),
-    .probe9(oled_vbat)
-);
-    
+ 
     
 endmodule
